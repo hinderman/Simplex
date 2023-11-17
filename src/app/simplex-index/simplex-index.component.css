@@ -1,225 +1,71 @@
-html{
-    box-sizing: border-box;
-    font-size: 62.5%;
+body {
+    background-color: #f8f9fa;
 }
 
-*, *:before, *:after{
-    box-sizing: inherit;
-}
-
-body{
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    line-height: 2;
-}
-
-.contenedor{
-    max-width: 90rem;
-    margin: 0 auto;
-}
-
-img{
-    max-width: 100%;
-}
-
-h1{
-    font-size: 3.8rem;
-}
-
-h2{
-    font-size: 3.4rem;
-}
-
-h3{
-    font-size: 3rem;
-}
-
-h4{
-    font-size: 2.6rem;
-}
-
-.seccion{
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-.size-header.inicio{
-    /* background-image: url(src/assets/img/fondo.png); */
-    background-size: cover;
-    background-position: center center;
-    height: 10vh;
-    min-height: 1rem;
-}
-
-.contenido{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.contenido h1{
-    color: #42C920;
-    padding-bottom: 1rem;
-    max-width: 60rem;
-    line-height: 1.5;
-}
-
-/* .barra{
-    display: flex;
-    justify-content: space-between;
-    padding-top: 3rem;
-}  */
-
-/* .navegacion a{
-    color: #FECD5B;
-    text-decoration: none;
-    font-size: 1.8rem;
-    margin-right: 2rem;
-} */
-
-/* .navegacion a:hover{
-    color: #D45278;
-} */
-
-/* .navegacion a:last-of-type{
-    margin: 0;
-} */
-
-img{
-    cursor: pointer;
-    height: 3rem;
-    width: 3rem;
-}
-
-img:hover{
-    height: 3rem;
-    width: 3rem;
-    background-size: cover;
-    background-image: url(src/assets/img/eliminarHover.png);
-}
-
-.fw-h2{
-    font-weight: 300;
-    text-align: center;
-}
-
-.ecuacion{
-    display: flex;
-    justify-content: space-between;
-}
-
-
-.boton{
+header {
+    background-color: #007bff;
     color: white;
-    font-weight: 700;
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    text-decoration: none;
-
-    padding: 1rem 3rem;
-    margin-top: 2rem;
-    display: inline-block;
-    text-align: center;
-} 
-
-.boton-naranja{
-    background-color: #E08709;
-    border-color: #E08709;
+    padding: 2rem 0;
 }
 
-.boton-verde{
-    background-color: #42C920;
-    border-color:#42C920
+.ecuacion,
+.restriccion {
+    background-color: white;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    gap: 20px;
 }
 
-.boton:hover{
-    background-color: #E08709;
-    border-color:#E08709
+.btn-calcular {
+    background-color: #28a745;
+    color: white;
 }
 
-.restriccion{
-    display: flex;
-    flex-direction: column;
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
-.elemento {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-top: 5px;
+
+.list-group-item img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
 
-input{
-    margin-right: 1rem;
-    margin-left: 1rem;
-}
-
-button:disabled{
-    background: gray;
-    border: none;
-    
-}
-
-button[disabled]:hover{
-    background: gray;
-    border: none;
-}
-
-/*Aquí voy*/
-
-
-.iconos{
-    flex-basis: calc(33.3% - 1rem);
-    text-align: center;
-}
-
-.iconos h3{
-    text-transform: uppercase;
-}
-
-.contenedor-anuncio{
+.restriccion .form-row {
     display: flex;
     justify-content: space-between;
-}
-
-.anuncio{
-    flex-basis: calc(33.3% - 1rem);
-    border: 1px solid #B5B5B5;
-    background-color: #F5F5F5;
-}
-
-.contenido-anuncio{
-    padding: 2rem;
-}
-
-.contenido-anuncio h3, .contenido-anuncio p{
-    margin: 0;
-}
-
-.precio{
-    color: #71B100; 
-    font-size: 900;
-}
-
-.d-block{
-    display: block;
-}
-
-.ver-todas{
-    display: flex;
-    justify-content: flex-end;
-}
-
-.imagen{
-    /* background-image: url(/src/assets/img/casaSueño.jpg); */
-    background-position: center center;
-    background-size: cover;
-    height: 40rem;
-    display: flex;
     align-items: center;
 }
 
-.contenido-contacto{
+.restriccion .col {
     flex: 1;
-    color: black;
+}
+
+.restriccion .col-auto {
+    flex: 0 0 auto;
+}
+
+.restriccion .col-auto img {
+    margin: 0 10px;
+}
+
+/* Estilos adicionales según sea necesario */
+
+/* Centra el contenido dentro de <main> */
+.seccion.contenedor {
+    text-align: center;
+}
+
+/* Espaciado en la parte superior e inferior de los elementos dentro de <main> */
+.seccion.contenedor>* {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

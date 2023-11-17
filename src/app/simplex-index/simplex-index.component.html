@@ -1,137 +1,252 @@
-<header class="size-header inicio">
-    <div class="contenedor contenido">               
-        <h1>Método Simplex</h1>
-    </div> 
+<header class="text-center">
+  <div class="container">
+    <h1 class="display-4">Método Simplex</h1>
+  </div>
 </header>
 
-<section class="contenedor seccion">
-    <div class="ecuacion">
-        <div>
-            <h4>Selecciona el tipo de método Simplex</h4>
-            <select (change)="tipoMetodoSeleccionado($event)">
-                <option value="" style="display:none">Seleccione una opción</option>
-                <option *ngFor="let met of metodo" [value]="met.id">
-                  {{ met.nombre }}
-                </option>
-              </select>
-        </div>
-    </div>
-    <div class="ecuacion">
-        <div>
-            <h4>Ingrese la funcion objetivo Z = <input type="text" placeholder="Ejem: 2x + 2y" [(ngModel)]="valorZ" (change)="letter()"></h4>
-        </div>
-    </div>
-    <div class="restriccion">
+<section class="container my-5">
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Contenido de la primera columna -->
+      <div class="ecuacion">
+        <h4>Selecciona el tipo de método Simplex</h4>
+        <select class="form-control" (change)="tipoMetodoSeleccionado($event)">
+          <option value="" style="display:none">Seleccione una opción</option>
+          <option *ngFor="let met of metodo" [value]="met.id">{{ met.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="ecuacion">
+        <h4>Ingrese la función objetivo Z = <input type="text" class="form-control" placeholder="Ejemplo: 2x + 2y"
+            [(ngModel)]="valorZ" (change)="letter()"></h4>
+      </div>
+
+      <div class="restriccion">
         <h4>Ingrese las ecuaciones de restricciones</h4>
 
-        <ul class="elemento">
-            <li class="elemento" *ngFor="let ecuacion of inputs; let i = index" (change)="ecuacionRestriccion(ecuacion)">
-                <input [(ngModel)]="ecuacion.operacion" placeholder="Operación">
-                <select [(ngModel)]="ecuacion.operador">
-                    <option *ngFor="let op of operadorInput" [ngValue]="op.id">{{ op.signo }}</option>
+        <ul class="list-group elemento">
+          <li class="list-group-item" *ngFor="let ecuacion of inputs; let i = index"
+            (change)="ecuacionRestriccion(ecuacion)">
+            <div class="form-row align-items-center">
+              <div class="col">
+                <input class="form-control" [(ngModel)]="ecuacion.operacion" placeholder="Operación">
+              </div>
+              <div class="col">
+                <select class="form-control" [(ngModel)]="ecuacion.operador">
+                  <option *ngFor="let op of operadorInput" [ngValue]="op.id">{{ op.signo }}</option>
                 </select>
-                <input [(ngModel)]="ecuacion.igualdad" placeholder="Igualdad">
+              </div>
+              <div class="col">
+                <input class="form-control" [(ngModel)]="ecuacion.igualdad" placeholder="Igualdad">
+              </div>
+              <div class="col-auto">
                 <img src="/assets/img/eliminar.png" alt="Imagen de eliminación" (click)="eliminarEcuacion(i)" />
-            </li>
+              </div>
+            </div>
+          </li>
         </ul>
 
-        <div>
-            <button class="boton boton-verde" (click)="agregarEcuacion()">Agregar Ecuación</button>
+        <div class="mt-3">
+          <button class="btn btn-success btn-block" (click)="agregarEcuacion()">Agregar Ecuación</button>
         </div>
+      </div>
+
+      <div>
+        <button [disabled]="!tipoMetSeleccion || !ecuRestri" class="btn btn-calcular btn-block"
+          (click)="calcularFuncion()">Calcular Función</button>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <!-- Contenido de la segunda columna -->
+      <main class="seccion contenedor">
+        <div *ngIf="this.clickCalcularFuncion === true && this.metodoSeleccionado.id === 1">
+          <h2 class="fw-h2 text-center">Función objetivo {{ this.metodoSeleccionado.nombre }}</h2>
+
+          <div class="my-4">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">Z(máx) {{ this.mostrarFuncionZ }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="text-center">Sujeto a:</h3>
+
+          <div class="my-4">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fila of mostrarMatrizEcuaciones">
+                  <td>{{ fila }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="text-center">Matriz Simplex</h3>
+
+          <div class="my-4">
+            <div *ngFor="let columna of matrizSimplex">
+              <h4>{{ columna | json }}</h4>
+            </div>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th *ngFor="let columna of this.mostrarArregloFuncionZ" scope="col">{{ columna }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fila of this.matrizSimplex">
+                  <td *ngFor="let columna of fila">{{ columna }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+
+
+<!--
+  <header class="size-header inicio">
+    <div class="contenedor contenido">
+      <h1>Método Simplex</h1>
+    </div>
+  </header>
+
+  <section class="contenedor seccion">
+    <div class="ecuacion">
+      <div>
+        <h4>Selecciona el tipo de método Simplex</h4>
+        <select (change)="tipoMetodoSeleccionado($event)">
+          <option value="" style="display:none">Seleccione una opción</option>
+          <option *ngFor="let met of metodo" [value]="met.id">
+            {{ met.nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="ecuacion">
+      <div>
+        <h4>Ingrese la funcion objetivo Z = <input type="text" placeholder="Ejem: 2x + 2y" [(ngModel)]="valorZ"
+            (change)="letter()"></h4>
+      </div>
+    </div>
+    <div class="restriccion">
+      <h4>Ingrese las ecuaciones de restricciones</h4>
+
+      <ul class="elemento">
+        <li class="elemento" *ngFor="let ecuacion of inputs; let i = index" (change)="ecuacionRestriccion(ecuacion)">
+          <input [(ngModel)]="ecuacion.operacion" placeholder="Operación">
+          <select [(ngModel)]="ecuacion.operador">
+            <option *ngFor="let op of operadorInput" [ngValue]="op.id">{{ op.signo }}</option>
+          </select>
+          <input [(ngModel)]="ecuacion.igualdad" placeholder="Igualdad">
+          <img src="/assets/img/eliminar.png" alt="Imagen de eliminación" (click)="eliminarEcuacion(i)" />
+        </li>
+      </ul>
+
+      <div>
+        <button class="boton boton-verde" (click)="agregarEcuacion()">Agregar Ecuación</button>
+      </div>
     </div>
 
     <div>
-        <button [disabled]="!tipoMetSeleccion || !ecuRestri" class="boton boton-verde" (click)="calcularFuncion()">Calcular Función</button>
+      <button [disabled]="!tipoMetSeleccion || !ecuRestri" class="boton boton-verde"
+        (click)="calcularFuncion()">Calcular Función</button>
     </div>
-</section>
+  </section>
 
-<main class="seccion contenedor">
+  <main class="seccion contenedor">
 
     <div *ngIf="this.clickCalcularFuncion === true && this.metodoSeleccionado.id === 1">
-        <h2 class="fw-h2">Función objetivo {{this.metodoSeleccionado.nombre}}</h2>
+      <h2 class="fw-h2">Función objetivo {{this.metodoSeleccionado.nombre}}</h2>
+      <br>
+
+      <div>
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Z(máx) {{this.mostrarFuncionZ}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <h3>Sujeto a:</h3>
+
+      <div>
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fila of mostrarMatrizEcuaciones">
+              <td>{{ fila }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <br>
+      <h3>Matriz Simplex</h3>
+
+      <div *ngFor="let columna of matrizSimplex">
+        <h4>{{ columna | json}}</h4>
         <br>
+      </div>
 
-        <div>
-            <table class="table table-borderless">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Z(máx) {{this.mostrarFuncionZ}}</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-
-        <!-- <h3>Z(máx) {{this.mostrarFuncionZ}}</h3> -->
-
-        <br>
-        <h3>Sujeto a:</h3>
-        <!-- <div *ngFor="let fila of mostrarMatrizEcuaciones">
-            <h3>{{ fila }}</h3>
-        </div> -->
-
-        <div>
-            <table class="table table-borderless">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let fila of mostrarMatrizEcuaciones">
-                    <td>{{ fila }}</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-
-        <br>
-        <h3>Matriz Simplex</h3>
-
-        <div *ngFor="let columna of matrizSimplex">
-            <h4>{{ columna | json}}</h4>
-            <br>
-        </div>
-        
-        <div>
-          <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col"> Tabla </th>
-                    <th scope="col"> Cj </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- <tr *ngFor=" let columna of this.mostrarArregloFuncionZ" scope="row">
-                    <th scope="row"> {{ columna }} </th>
-
-                    <tr *ngFor="let fila of this.matrizSimplex">
-                      <td *ngFor="let columna of fila">{{ columna }}</td>
-                    </tr>
-                  </tr> -->
-                
-                <th scope="row">{{ "Cb" }}</th>
-                <th *ngFor=" let columna of this.mostrarArregloFuncionZ" scope="col"> {{ columna }} </th>
-                <tr *ngFor="let fila of matrizSimplex; ">
-                  <th scope="row">0</th>
-                  <td *ngFor="let columna of fila">{{ columna }}</td>
-                </tr>
-                </tbody>
-              </table>
-        </div>
+      <div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col"> # </th>
+              <th *ngFor=" let columna of this.mostrarArregloFuncionZ" scope="col"> {{ columna }} </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fila of this.matrizSimplex">
+              <td *ngFor="let columna of fila">{{ columna }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    
-</main>
 
-<section class="imagen">
+  </main>
+
+  <section class="imagen">
     <div class="contenedor contenido-contacto">
     </div>
-</section>
+  </section>
 
-<footer>
+  <footer>
 
-</footer>
+  </footer>
+
+
+-->
