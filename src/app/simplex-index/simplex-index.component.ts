@@ -74,6 +74,7 @@ export class SimplexIndexComponent {
 
   clickCalcularFuncion: boolean = false;
   matrizHolgura: string[][] = [];
+  menorValorNegativo: number = Infinity;
 
 
   tipoMetodoSeleccionado(event: Event) {
@@ -396,7 +397,7 @@ export class SimplexIndexComponent {
   }
 
   tablaSimplex(pVectorEcuaciones: string[], pVectorString: string[], pVectorNumero: number[], pMatrizHolgura: string[][], pMostrarFuncionZ: string): number[][]{
-    debugger
+
     let vectorMostrarFuncionZ: string[] = [];
     let reemplazarIgual: string = pMostrarFuncionZ.replace('=', '+');
     reemplazarIgual += 'R';
@@ -434,7 +435,7 @@ export class SimplexIndexComponent {
       }
     }
 
-    debugger
+    this.calcularColumnaPivote(this.matrizSimplex);
 
     return this.matrizSimplex;
   }
@@ -583,6 +584,14 @@ export class SimplexIndexComponent {
     return { resultadoMatriz,  resultadoMatrizNumero};
   }
 
+  calcularColumnaPivote(pMatrizSimplex: number[][]){
 
+    debugger
+    for(let i = 0; i < pMatrizSimplex.length; i++){
+      if(pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo){
+        this.menorValorNegativo = pMatrizSimplex[0][i];
+      }
+    }
+  }
 
 }
