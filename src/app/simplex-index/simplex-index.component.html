@@ -106,13 +106,48 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th *ngFor="let columna of this.mostrarArregloFuncionZ" scope="col">{{ columna }}</th>
+                  <th *ngFor="let columna of this.mostrarArregloFuncionZ" scope="col">{{ columna }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fila of this.matrizSimplex">
+                  <td *ngFor="let columna of fila; index as i">{{ columna }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th *ngFor="let columna of this.mostrarArregloFuncionZ" scope="col">{{ columna }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let fila of this.matrizSimplex">
                   <td *ngFor="let columna of fila; index as i"
                     [ngClass]="{'table-success': i === getIndexMenorValorNegativo()}">{{ columna }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th *ngFor="let columna of this.mostrarArregloFuncionZ;" scope="col">{{ columna }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fila of this.matrizSimplex; index as j">
+                  <td *ngFor="let columna of fila; index as i" [ngClass]="{
+                      'table-success': i === getIndexMenorValorNegativo() || j === getIndexMenorValorPositivo(),
+                      'table-danger': i === getIndexMenorValorNegativo() && j === getIndexMenorValorPositivo(),
+                  }">
+                    {{ columna }}</td>
                 </tr>
               </tbody>
             </table>

@@ -585,11 +585,11 @@ export class SimplexIndexComponent {
     return { resultadoMatriz, resultadoMatrizNumero };
   }
 
-  calcularColumnaPivote(pMatrizSimplex: number[][]){
+  calcularColumnaPivote(pMatrizSimplex: number[][]) {
     let posicionColumnaPivote = -1;
 
-    for(let i = 0; i < pMatrizSimplex.length; i++){
-      if(pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo){
+    for (let i = 0; i < pMatrizSimplex.length; i++) {
+      if (pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo) {
         this.menorValorNegativo = pMatrizSimplex[0][i];
 
         posicionColumnaPivote = i;
@@ -599,17 +599,17 @@ export class SimplexIndexComponent {
     this.calcularFilaPivote(pMatrizSimplex, posicionColumnaPivote);
   }
 
-  calcularFilaPivote(pMatrizSimplex: number[][], pPosicionColumnaPivote: number){
-    
+  calcularFilaPivote(pMatrizSimplex: number[][], pPosicionColumnaPivote: number) {
+
     let vectorColumnaPivote: number[] = [];
 
     debugger
-    for(let i = 1; i < pMatrizSimplex.length; i++){
+    for (let i = 1; i < pMatrizSimplex.length; i++) {
       vectorColumnaPivote.push(pMatrizSimplex[i][pPosicionColumnaPivote]);
     }
 
-    for(let j = 1; j < pMatrizSimplex.length; j++){
-      const reemplazo = ( pMatrizSimplex[j][pMatrizSimplex[0].length - 1] / vectorColumnaPivote[j - 1] );
+    for (let j = 1; j < pMatrizSimplex.length; j++) {
+      const reemplazo = (pMatrizSimplex[j][pMatrizSimplex[0].length - 1] / vectorColumnaPivote[j - 1]);
 
       pMatrizSimplex[j][pMatrizSimplex[0].length - 1] = reemplazo;
     }
@@ -624,10 +624,19 @@ export class SimplexIndexComponent {
   }
 
   getIndexMenorValorNegativo() {
-    let index = this.matrizSimplex.findIndex((elem) => {
-      return elem.indexOf(this.menorValorNegativo)
-    })
-    return index;
+    return this.matrizSimplex
+      .find(row => row.includes(this.menorValorNegativo))
+      ?.indexOf(this.menorValorNegativo) || -1;
+  }
+
+  getIndexMenorValorPositivo() {
+    for (let i = 0; i < this.matrizSimplex.length; i++) {
+      if (this.matrizSimplex[i].includes(this.menorValorPositivo)) {
+        return i;
+      }
+    }
+
+    return -1
   }
 
 }
