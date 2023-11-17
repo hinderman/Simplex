@@ -640,7 +640,16 @@ export class SimplexIndexComponent {
   }
 
   pivote(pMatrizSimplex: number[][], pColumna: number, pFila: number){
+    let valorPivote: number; 
 
+    valorPivote = pMatrizSimplex[pColumna][pFila];
+
+    debugger
+    for(let i = 0; i < pMatrizSimplex.length; i++){
+      for(let j = 0; j < pMatrizSimplex[0].length; j++){
+
+      }
+    }
   }
 
   getIndexMenorValorNegativo() {
