@@ -588,8 +588,8 @@ export class SimplexIndexComponent {
   calcularColumnaPivote(pMatrizSimplex: number[][]){
     let posicionColumnaPivote: number = -1;
 
-    for(let i = 0; i < pMatrizSimplex.length; i++){
-      if(pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo){
+    for (let i = 0; i < pMatrizSimplex.length; i++) {
+      if (pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo) {
         this.menorValorNegativo = pMatrizSimplex[0][i];
 
         posicionColumnaPivote = i;
@@ -598,8 +598,8 @@ export class SimplexIndexComponent {
     this.calcularFilaPivote(pMatrizSimplex, posicionColumnaPivote);
   }
 
-  calcularFilaPivote(pMatrizSimplex: number[][], pPosicionColumnaPivote: number){
-    
+  calcularFilaPivote(pMatrizSimplex: number[][], pPosicionColumnaPivote: number) {
+
     let vectorColumnaPivote: number[] = [];
     let posicionFilaPivote: number = -1;
 
@@ -644,10 +644,19 @@ export class SimplexIndexComponent {
   }
 
   getIndexMenorValorNegativo() {
-    let index = this.matrizSimplex.findIndex((elem) => {
-      return elem.indexOf(this.menorValorNegativo)
-    })
-    return index;
+    return this.matrizSimplex
+      .find(row => row.includes(this.menorValorNegativo))
+      ?.indexOf(this.menorValorNegativo) || -1;
+  }
+
+  getIndexMenorValorPositivo() {
+    for (let i = 0; i < this.matrizSimplex.length; i++) {
+      if (this.matrizSimplex[i].includes(this.menorValorPositivo)) {
+        return i;
+      }
+    }
+
+    return -1
   }
 
 
