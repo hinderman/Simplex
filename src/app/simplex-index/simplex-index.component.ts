@@ -75,6 +75,7 @@ export class SimplexIndexComponent {
   clickCalcularFuncion: boolean = false;
   matrizHolgura: string[][] = [];
   menorValorNegativo: number = Infinity;
+  menorValorPositivo = Infinity;
 
 
   tipoMetodoSeleccionado(event: Event) {
@@ -585,13 +586,41 @@ export class SimplexIndexComponent {
   }
 
   calcularColumnaPivote(pMatrizSimplex: number[][]){
+    let posicionColumnaPivote = -1;
 
-    debugger
     for(let i = 0; i < pMatrizSimplex.length; i++){
       if(pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo){
         this.menorValorNegativo = pMatrizSimplex[0][i];
+
+        posicionColumnaPivote = i;
       }
     }
+
+    this.calcularFilaPivote(pMatrizSimplex, posicionColumnaPivote);
+  }
+
+  calcularFilaPivote(pMatrizSimplex: number[][], pPosicionColumnaPivote: number){
+    
+    let vectorColumnaPivote: number[] = [];
+
+    debugger
+    for(let i = 1; i < pMatrizSimplex.length; i++){
+      vectorColumnaPivote.push(pMatrizSimplex[i][pPosicionColumnaPivote]);
+    }
+
+    for(let j = 1; j < pMatrizSimplex.length; j++){
+      const reemplazo = ( pMatrizSimplex[j][pMatrizSimplex[0].length - 1] / vectorColumnaPivote[j - 1] );
+
+      pMatrizSimplex[j][pMatrizSimplex[0].length - 1] = reemplazo;
+    }
+
+    for (let fila of pMatrizSimplex) {
+      let valor = fila[pMatrizSimplex[0].length - 1];
+      if (valor > 0 && valor < this.menorValorPositivo) {
+        this.menorValorPositivo = valor;
+      }
+    }
+    debugger
   }
 
 }
