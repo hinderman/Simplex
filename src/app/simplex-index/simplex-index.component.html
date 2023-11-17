@@ -1,0 +1,126 @@
+<header class="size-header inicio">
+    <div class="contenedor contenido">               
+        <h1>Método Simplex</h1>
+    </div> 
+</header>
+
+<section class="contenedor seccion">
+    <div class="ecuacion">
+        <div>
+            <h4>Selecciona el tipo de método Simplex</h4>
+            <select (change)="tipoMetodoSeleccionado($event)">
+                <option value="" style="display:none">Seleccione una opción</option>
+                <option *ngFor="let met of metodo" [value]="met.id">
+                  {{ met.nombre }}
+                </option>
+              </select>
+        </div>
+    </div>
+    <div class="ecuacion">
+        <div>
+            <h4>Ingrese la funcion objetivo Z = <input type="text" placeholder="Ejem: 2x + 2y" [(ngModel)]="valorZ" (change)="letter()"></h4>
+        </div>
+    </div>
+    <div class="restriccion">
+        <h4>Ingrese las ecuaciones de restricciones</h4>
+
+        <ul class="elemento">
+            <li class="elemento" *ngFor="let ecuacion of inputs; let i = index" (change)="ecuacionRestriccion(ecuacion)">
+                <input [(ngModel)]="ecuacion.operacion" placeholder="Operación">
+                <select [(ngModel)]="ecuacion.operador">
+                    <option *ngFor="let op of operadorInput" [ngValue]="op.id">{{ op.signo }}</option>
+                </select>
+                <input [(ngModel)]="ecuacion.igualdad" placeholder="Igualdad">
+                <img src="/assets/img/eliminar.png" alt="Imagen de eliminación" (click)="eliminarEcuacion(i)" />
+            </li>
+        </ul>
+
+        <div>
+            <button class="boton boton-verde" (click)="agregarEcuacion()">Agregar Ecuación</button>
+        </div>
+    </div>
+
+    <div>
+        <button [disabled]="!tipoMetSeleccion || !ecuRestri" class="boton boton-verde" (click)="calcularFuncion()">Calcular Función</button>
+    </div>
+</section>
+
+<main class="seccion contenedor">
+
+    <div *ngIf="this.clickCalcularFuncion === true && this.metodoSeleccionado.id === 1">
+        <h2 class="fw-h2">Función objetivo {{this.metodoSeleccionado.nombre}}</h2>
+        <br>
+
+        <div>
+            <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Z(máx) {{this.mostrarFuncionZ}}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+
+        <!-- <h3>Z(máx) {{this.mostrarFuncionZ}}</h3> -->
+
+        <br>
+        <h3>Sujeto a:</h3>
+        <!-- <div *ngFor="let fila of mostrarMatrizEcuaciones">
+            <h3>{{ fila }}</h3>
+        </div> -->
+
+        <div>
+            <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let fila of mostrarMatrizEcuaciones">
+                    <td>{{ fila }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+
+        <br>
+        <h3>Matriz Simplex</h3>
+
+        <div *ngFor="let columna of matrizSimplex">
+            <h4>{{ columna | json}}</h4>
+            <br>
+        </div>
+        
+        <div>
+          <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col"> # </th>
+                    <th *ngFor=" let columna of this.mostrarArregloFuncionZ" scope="col"> {{ columna }} </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let fila of this.matrizSimplex">
+                    <td *ngFor="let columna of fila">{{ columna }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    
+</main>
+
+<section class="imagen">
+    <div class="contenedor contenido-contacto">
+    </div>
+</section>
+
+<footer>
+
+</footer>
