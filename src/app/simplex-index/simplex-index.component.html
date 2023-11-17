@@ -111,7 +111,8 @@
               </thead>
               <tbody>
                 <tr *ngFor="let fila of this.matrizSimplex">
-                  <td *ngFor="let columna of fila">{{ columna }}</td>
+                  <td *ngFor="let columna of fila; index as i"
+                    [ngClass]="{'table-success': i === getIndexMenorValorNegativo()}">{{ columna }}</td>
                 </tr>
               </tbody>
             </table>
