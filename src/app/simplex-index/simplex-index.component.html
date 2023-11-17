@@ -101,14 +101,25 @@
           <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col"> # </th>
-                    <th *ngFor=" let columna of this.mostrarArregloFuncionZ" scope="col"> {{ columna }} </th>
+                    <th scope="col"> Tabla </th>
+                    <th scope="col"> Cj </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let fila of this.matrizSimplex">
-                    <td *ngFor="let columna of fila">{{ columna }}</td>
-                  </tr>
+                  <!-- <tr *ngFor=" let columna of this.mostrarArregloFuncionZ" scope="row">
+                    <th scope="row"> {{ columna }} </th>
+
+                    <tr *ngFor="let fila of this.matrizSimplex">
+                      <td *ngFor="let columna of fila">{{ columna }}</td>
+                    </tr>
+                  </tr> -->
+                
+                <th scope="row">{{ "Cb" }}</th>
+                <th *ngFor=" let columna of this.mostrarArregloFuncionZ" scope="col"> {{ columna }} </th>
+                <tr *ngFor="let fila of matrizSimplex; ">
+                  <th scope="row">0</th>
+                  <td *ngFor="let columna of fila">{{ columna }}</td>
+                </tr>
                 </tbody>
               </table>
         </div>
