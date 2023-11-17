@@ -225,6 +225,10 @@ export class SimplexIndexComponent {
   }
 
   calcularFuncion() {
+    this.matrizSimplex = [];
+    this.PieZ = [];
+    this.encabezadoZ = [];
+
     let expresionDividida: string[] = this.funcionZ();
     if (expresionDividida.length > 0) {
       this.clickCalcularFuncion = false;
@@ -410,6 +414,7 @@ export class SimplexIndexComponent {
     debugger
     this.PieZ = [];
     this.encabezadoZ = [];
+    this.matrizSimplex = [];
 
     this.PieZ.push("");
     this.PieZ.push("Z");
@@ -436,8 +441,6 @@ export class SimplexIndexComponent {
 
     let nuevosVectorEcuaciones = pVectorEcuaciones.slice(2);
 
-
-
     vectorMostrarFuncionZ = this.splitString(reemplazarIgual);
 
     const resultadoDivision = this.dividirLetrasNumeros(vectorMostrarFuncionZ);
@@ -457,26 +460,28 @@ export class SimplexIndexComponent {
 
       this.matrizSimplex[filas] = new Array(nuevosVectorEcuaciones.length);
 
-      for (let columnas = 0; columnas < nuevosVectorEcuaciones.length + 1; columnas++) {
+      for (let columnas = 0; columnas <= nuevosVectorEcuaciones.length + 1; columnas++) {
 
         if (filas == 0) {
           this.matrizSimplex[filas][columnas] = resultadoDivisionNumber[columnas];
-        }else{
-          this.matrizSimplex[filas][columnas] = resultadoMatrizHolguraCompleta[filas-1][columnas];
         }
 
-        if(columnas == 0){
+        if(columnas == 0 && filas != 0){
           this.matrizSimplex[filas][columnas] = 0;
         }
 
-        if(columnas == 1){
+        if(columnas == 1 && filas != 0){
           this.matrizSimplex[filas][columnas] = filas;
+        }
+
+        if(columnas != 0 && columnas != 1 && filas != 0){
+          this.matrizSimplex[filas][columnas] = resultadoMatrizHolguraCompleta[filas-1][columnas -2];
         }
       }
     }
 
-    this.calcularColumnaPivote(this.matrizSimplex);
     this.matrizSimplex = this.matrizSimplex.slice(1);
+    this.calcularColumnaPivote(this.PieZ);
 
     return this.matrizSimplex;
   }
@@ -625,18 +630,18 @@ export class SimplexIndexComponent {
     return { resultadoMatriz, resultadoMatrizNumero };
   }
 
-  calcularColumnaPivote(pMatrizSimplex: number[][]){
-    let posicionColumnaPivote = -1;
-
-    for(let i = 0; i < pMatrizSimplex.length; i++){
-      if(pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo){
-        this.menorValorNegativo = pMatrizSimplex[0][i];
-
-        posicionColumnaPivote = i;
+  calcularColumnaPivote(datosZ: string[]){
+    this.menorValorNegativo = parseInt(datosZ[2]);
+    let posicionColumnaPivote: number = 0;
+    for (let index = 2; index < datosZ.length; index++) {
+      const menor = parseInt(datosZ[index]);
+      if(menor < this.menorValorNegativo){
+        this.menorValorNegativo = menor;
+        posicionColumnaPivote = index
       }
     }
 
-    this.calcularFilaPivote(pMatrizSimplex, posicionColumnaPivote);
+    this.calcularFilaPivote(this.matrizSimplex, posicionColumnaPivote);
   }
 
   calcularFilaPivote(pMatrizSimplex: number[][], pPosicionColumnaPivote: number){
