@@ -401,8 +401,11 @@ export class SimplexIndexComponent {
     let reemplazarIgual: string = pMostrarFuncionZ.replace('=', '+');
     reemplazarIgual += 'R';
 
+    let nuevosVectorEcuaciones = pVectorEcuaciones.slice(1);
+
+
+
     vectorMostrarFuncionZ = this.splitString(reemplazarIgual);
-    vectorMostrarFuncionZ.unshift("+1Z");
 
     const resultadoDivision = this.dividirLetrasNumeros(vectorMostrarFuncionZ);
     const resultadoDivisionString = resultadoDivision.letrasVector;
@@ -414,51 +417,14 @@ export class SimplexIndexComponent {
     const resultadoDivisionMatrizString = resultadoDivisionMatriz.letrasMatriz;
     const resultadoDivisionMatrizNumber = resultadoDivisionMatriz.numerosMatriz;
 
-    const resultadoMatrizHolgura = this.agregarVariablesSiNoExisten(pVectorEcuaciones, resultadoDivisionMatrizString, resultadoDivisionMatrizNumber);
+    const resultadoMatrizHolgura = this.agregarVariablesSiNoExisten(nuevosVectorEcuaciones, resultadoDivisionMatrizString, resultadoDivisionMatrizNumber);
     const resultadoMatrizHolguraCompleta = resultadoMatrizHolgura.resultadoMatrizNumero;
-
-    // for (let filas = 0; filas <= pMatrizHolgura.length+1; filas++) {
-
-    //   this.matrizSimplex[filas] = new Array(pVectorEcuaciones.length);
-      
-    //   if( filas == 0){
-
-    //     for (let columnas = 0; columnas < pVectorEcuaciones.length+1; columnas++) {
-    //       if(columnas == 0){
-    //         this.matrizSimplex[filas][columnas] = '*';
-    //       }else{
-    //         this.matrizSimplex[filas][columnas] = pVectorEcuaciones[columnas - 1];
-    //       }
-    //     }
-
-    //   }else{
-    //         for (let columnas = 0; columnas < pVectorEcuaciones.length+1; columnas++) {
-
-    //         if(columnas == 0 && filas == 1){
-    //           this.matrizSimplex[filas][columnas] = 'Z';
-    //         }else{
-    //           if(columnas == 0 && filas != 1){
-    //             this.matrizSimplex[filas][columnas] = 'E'+(filas-1);
-    //           }else{
-    //             if(filas == 1){
-    //               this.matrizSimplex[filas][columnas] = resultadoDivisionNumber[columnas - 1].toString();
-    //             }else{
-    //               debugger
-    //               let i = 0;
-    //               this.matrizSimplex[filas][columnas] = resultadoMatrizHolguraCompleta[i][columnas - 1].toString();
-    //               i += 1;
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
 
     for (let filas = 0; filas <= pMatrizHolgura.length; filas++) {
 
-      this.matrizSimplex[filas] = new Array(pVectorEcuaciones.length);
+      this.matrizSimplex[filas] = new Array(nuevosVectorEcuaciones.length);
       
-      for (let columnas = 0; columnas < pVectorEcuaciones.length; columnas++) {
+      for (let columnas = 0; columnas < nuevosVectorEcuaciones.length; columnas++) {
 
         if(filas == 0){
           this.matrizSimplex[filas][columnas] = resultadoDivisionNumber[columnas];
