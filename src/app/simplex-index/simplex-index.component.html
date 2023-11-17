@@ -40,14 +40,14 @@
                 <input class="form-control" [(ngModel)]="ecuacion.igualdad" placeholder="Igualdad">
               </div>
               <div class="col-auto">
-                <img src="/assets/img/eliminar.png" alt="Imagen de eliminación" (click)="eliminarEcuacion(i)" />
+                <img *ngIf="!this.clickCalcularFuncion" src="/assets/img/eliminar.png" alt="Imagen de eliminación" (click)="eliminarEcuacion(i)" />
               </div>
             </div>
           </li>
         </ul>
 
         <div class="mt-3">
-          <button class="btn btn-success btn-block" (click)="agregarEcuacion()">Agregar Ecuación</button>
+          <button [disabled]="this.clickCalcularFuncion" class="btn btn-success btn-block" (click)="agregarEcuacion()">Agregar Ecuación</button>
         </div>
       </div>
 
@@ -72,7 +72,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="text-center">Z(máx) {{ this.mostrarFuncionZ }}</td>
+                  <td class="text-center">Z {{ this.mostrarFuncionZ }}</td>
                 </tr>
               </tbody>
             </table>
@@ -99,13 +99,15 @@
 
           <div class="my-4" *ngFor="let matriz of this.lstMatrices">
 
-            <h2>{{matriz[4]}}</h2>
+            <h4>{{matriz[4]}}</h4>
+
+            <br>
 
             <table class="table table-bordered">
 
               <thead>
                 <tr>
-                  <td *ngFor="let columna of matriz[0]" scope="col">{{ columna }}</td>
+                  <td *ngFor="let columna of matriz[0]; let i = index" scope="col">{{ columna }}</td>
                 </tr>
               </thead>
 
@@ -118,7 +120,7 @@
 
               <tbody>
                 <tr *ngFor="let fila of matriz[2]; let q = index">
-                  <td *ngFor="let columna of fila; index as i">{{ i == 1 ? 'S' + (q + 1) : columna }}</td>
+                  <td *ngFor="let columna of fila; index as i">{{ columna }}</td>
                 </tr>
               </tbody>
 
@@ -130,36 +132,7 @@
 
             </table>
 
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <td *ngFor="let columna of matriz[0]" scope="col">{{ columna }}</td>
-                </tr>
-              </thead>
-
-              <thead>
-                <tr>
-                  <th *ngFor="let columna of matriz[1]" scope="col">{{ columna }}
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr *ngFor="let fila of matriz[2]; let q = index">
-                  <td *ngFor="let columna of fila; index as i"
-                    [ngClass]="{'table-success': i === getIndexMenorValorNegativo()}">{{ i == 1 ? 'S' + (q + 1) : columna }}</td>
-                </tr>
-              </tbody>
-
-              <thead>
-                <tr>
-                  <td *ngFor="let columna of matriz[3]" scope="col">{{ columna }}</td>
-                </tr>
-              </thead>
-
-            </table>
-
-            <table class="table table-bordered">
+            <!-- <table class="table table-bordered">
               <thead>
                 <tr>
                   <td *ngFor="let columna of matriz[0]" scope="col">{{ columna }}</td>
@@ -189,7 +162,7 @@
                 </tr>
               </thead>
 
-            </table>
+            </table> -->
 
           </div>
         </div>

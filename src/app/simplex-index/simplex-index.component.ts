@@ -17,10 +17,6 @@ export class SimplexIndexComponent {
     {
       id: 1,
       nombre: 'Maximizar'
-    },
-    {
-      id: 2,
-      nombre: 'Minimizar'
     }
   ];
 
@@ -81,6 +77,7 @@ export class SimplexIndexComponent {
 
   lstMatrices: any[] = [];
   validarDatosZ: boolean = true;
+  esCalcular: boolean = true;
 
   tipoMetodoSeleccionado(event: Event) {
     this.tipoMetSeleccion = false;
@@ -732,13 +729,13 @@ export class SimplexIndexComponent {
 
       let datosZ: string[] = this.lstMatrices[this.lstMatrices.length -1][3];
 
-      this.volverColumnaPivoteCero(datosZ, matrizAuxiliar, pColumna, pFila);
+      this.volverColumnaPivoteCero(datosZ, matrizAuxiliar, pColumna, pFila, valorPivote);
     }else{
       this.validarDatosZ = false;
     }
   }
 
-  volverColumnaPivoteCero(pPieZ: string[], pMatrizSimplex: number[][], pColumna: number, pFila: number){
+  volverColumnaPivoteCero(pPieZ: string[], pMatrizSimplex: number[][], pColumna: number, pFila: number, valorPivote: number){
     let vectorNumeroPieZ: number[] = [];
     let valorColumna: number;
     let vectorFilaPivote: number[] = [];
@@ -783,7 +780,7 @@ export class SimplexIndexComponent {
 
     let a: any[] = [];
 
-    a.push(this.encabezadoZ, this.mostrarArregloFuncionZ, pMatrizSimplex, auxiliarPieZ, "HOLA MUNDO");
+    a.push(this.encabezadoZ, this.mostrarArregloFuncionZ, pMatrizSimplex, auxiliarPieZ, "El elemento pivote fue: " + valorPivote + " y se encuentra ubicado en la fila: " + (pFila + 3) + " y la columna: " + (pColumna + 1));
 
     this.lstMatrices.push(a);
   }
@@ -792,6 +789,11 @@ export class SimplexIndexComponent {
     return this.matrizSimplex
       .find(row => row.includes(this.menorValorNegativo))
       ?.indexOf(this.menorValorNegativo) || -1;
+  }
+
+  getIndexMenorValorNegativo0(matriz: any[]) {
+    debugger
+    return matriz.find(row => row.includes(this.menorValorNegativo.toString()))?.indexOf(this.menorValorNegativo.toString()) || -1;
   }
 
   getIndexMenorValorPositivo() {
