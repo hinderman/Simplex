@@ -80,7 +80,7 @@ export class SimplexIndexComponent {
   PieZ: string[] = [];
 
   lstMatrices: any[] = [];
-
+  validarDatosZ: boolean = true;
 
   tipoMetodoSeleccionado(event: Event) {
     this.tipoMetSeleccion = false;
@@ -641,17 +641,22 @@ export class SimplexIndexComponent {
   }
 
   calcularColumnaPivote(datosZ: string[]){
-    let validarDatosZ = true;
+    this.validarDatosZ = true;
     let nuevaMatriz: number[][] = [];
 
-    while (validarDatosZ) {
-      debugger
+    while (this.validarDatosZ) {
+      this.validarDatosZ = datosZ.slice(2).some(valor => parseInt(valor) < 0);
+
+      if(!this.validarDatosZ){
+        break;
+      }
+
       datosZ = this.lstMatrices[this.lstMatrices.length -1][3];
       nuevaMatriz = this.lstMatrices[this.lstMatrices.length -1][2];
 
-      validarDatosZ = datosZ.slice(2).some(valor => parseInt(valor) < 0);
+      
 
-      this.menorValorNegativo = parseInt(datosZ[2]);
+      this.menorValorNegativo = Infinity;
       let posicionColumnaPivote: number = 0;
 
       for (let index = 2; index < datosZ.length; index++) {
@@ -664,12 +669,15 @@ export class SimplexIndexComponent {
 
       this.calcularFilaPivote(nuevaMatriz, posicionColumnaPivote);
     }
+
+    this.lstMatrices.pop();
   }
 
   calcularFilaPivote(pMatrizSimplex: number[][], pPosicionColumnaPivote: number) {
     let matrizAuxiliar: number[][] = [];
     let vectorColumnaPivote: number[] = [];
     let posicionFilaPivote: number = -1;
+    this.menorValorPositivo = Infinity;
 
     debugger
 
@@ -705,7 +713,7 @@ export class SimplexIndexComponent {
   }
 
   pivote(pMatrizSimplex: number[][], pColumna: number, pFila: number){
-    if (pFila > 0) {
+    if (pFila >= 0) {
       let valorPivote: number; 
       let matrizAuxiliar: number[][] = [...pMatrizSimplex];
 
@@ -722,7 +730,11 @@ export class SimplexIndexComponent {
         matrizAuxiliar[pFila][j] = (matrizAuxiliar[pFila][j] / valorPivote);
       }
 
-      this.volverColumnaPivoteCero(this.PieZ, matrizAuxiliar, pColumna, pFila);
+      let datosZ: string[] = this.lstMatrices[this.lstMatrices.length -1][3];
+
+      this.volverColumnaPivoteCero(datosZ, matrizAuxiliar, pColumna, pFila);
+    }else{
+      this.validarDatosZ = false;
     }
   }
 
