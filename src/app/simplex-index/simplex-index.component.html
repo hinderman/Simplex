@@ -97,39 +97,55 @@
 
           <h3 class="text-center">Matriz Simplex</h3>
 
-          <div class="my-4">
+          <div class="my-4" *ngFor="let matriz of this.lstMatrices">
+
+            <h2>{{matriz[4]}}</h2>
+
             <table class="table table-bordered">
 
               <thead>
                 <tr>
-                  <td *ngFor="let columna of this.encabezadoZ" scope="col">{{ columna }}</td>
+                  <td *ngFor="let columna of matriz[0]" scope="col">{{ columna }}</td>
                 </tr>
               </thead>
 
               <thead>
                 <tr>
-                  <th *ngFor="let columna of this.mostrarArregloFuncionZ" scope="col">{{ columna }}
+                  <th *ngFor="let columna of matriz[1]" scope="col">{{ columna }}
                   </th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr *ngFor="let fila of this.matrizSimplex">
-                  <td *ngFor="let columna of fila; index as i">{{ columna }}</td>
+                <tr *ngFor="let fila of matriz[2]; let q = index">
+                  <td *ngFor="let columna of fila; index as i">{{ i == 1 ? 'S' + (q + 1) : columna }}</td>
                 </tr>
               </tbody>
+
+              <thead>
+                <tr>
+                  <td *ngFor="let columna of matriz[3]" scope="col">{{ columna }}</td>
+                </tr>
+              </thead>
+
             </table>
 
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th *ngFor="let columna of this.mostrarArregloFuncionZ" scope="col">{{ columna }}
+                  <td *ngFor="let columna of matriz[0]" scope="col">{{ columna }}</td>
+                </tr>
+              </thead>
+
+              <thead>
+                <tr>
+                  <th *ngFor="let columna of matriz[1]" scope="col">{{ columna }}
                   </th>
                 </tr>
               </thead>
 
               <tbody>
-                <tr *ngFor="let fila of this.matrizSimplex; let q = index">
+                <tr *ngFor="let fila of matriz[2]; let q = index">
                   <td *ngFor="let columna of fila; index as i"
                     [ngClass]="{'table-success': i === getIndexMenorValorNegativo()}">{{ i == 1 ? 'S' + (q + 1) : columna }}</td>
                 </tr>
@@ -137,7 +153,7 @@
 
               <thead>
                 <tr>
-                  <td *ngFor="let columna of this.PieZ" scope="col">{{ columna }}</td>
+                  <td *ngFor="let columna of matriz[3]" scope="col">{{ columna }}</td>
                 </tr>
               </thead>
 
@@ -146,13 +162,19 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th *ngFor="let columna of this.mostrarArregloFuncionZ;" scope="col">{{ columna }}
+                  <td *ngFor="let columna of matriz[0]" scope="col">{{ columna }}</td>
+                </tr>
+              </thead>
+
+              <thead>
+                <tr>
+                  <th *ngFor="let columna of matriz[1];" scope="col">{{ columna }}
                   </th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr *ngFor="let fila of this.matrizSimplex; index as j">
+                <tr *ngFor="let fila of matriz[2]; index as j">
                   <td *ngFor="let columna of fila; index as i" [ngClass]="{
                       'table-success': i === getIndexMenorValorNegativo() || j === getIndexMenorValorPositivo(),
                       'table-danger': i === getIndexMenorValorNegativo() && j === getIndexMenorValorPositivo(),
@@ -163,30 +185,12 @@
 
               <thead>
                 <tr>
-                  <td *ngFor="let columna of this.PieZ" scope="col">{{ columna }}</td>
+                  <td *ngFor="let columna of matriz[3]" scope="col">{{ columna }}</td>
                 </tr>
               </thead>
 
             </table>
 
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th *ngFor="let columna of this.mostrarArregloFuncionZ;" scope="col">{{ columna }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let fila of this.matrizSimplex; index as j">
-                  <td *ngFor="let columna of fila; index as i" [ngClass]="{
-                      'table-success': i === getIndexMenorValorNegativo() || j === getIndexMenorValorPositivo(),
-                      'table-danger': i === getIndexMenorValorNegativo() && j === getIndexMenorValorPositivo(),
-                  }">
-                    {{ columna }}</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </main>
