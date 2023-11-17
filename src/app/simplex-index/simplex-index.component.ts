@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Metodo } from './interface/Metodo.interface';
 import { EcuacionRestriccion } from './interface/EcuacionRestriccion.interface';
 import { Operador } from './interface/Operador.interface';
-import swal from'sweetalert2';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-simplex-index',
@@ -12,7 +12,7 @@ import swal from'sweetalert2';
 })
 
 export class SimplexIndexComponent {
-  
+
   metodo: Metodo[] = [
     {
       id: 1,
@@ -39,10 +39,10 @@ export class SimplexIndexComponent {
     }
   ]
 
-  metodoSeleccionado: Metodo = {id:0, nombre: ''};
+  metodoSeleccionado: Metodo = { id: 0, nombre: '' };
   valorZ: string = "";
   form!: FormGroup;
-  mostarDescripcion : boolean = false;
+  mostarDescripcion: boolean = false;
   inputs: EcuacionRestriccion[] = [
     {
       operacion: '',
@@ -56,11 +56,11 @@ export class SimplexIndexComponent {
 
   letrasEcuacion: string[] = [];
   numerosEcuacion: number[] = [];
-  igualdadEcuacion: number = 0; 
+  igualdadEcuacion: number = 0;
 
-  tipoMetSeleccion : boolean = false;
-  fObjetivo : boolean = false;
-  ecuRestri : boolean = false;
+  tipoMetSeleccion: boolean = false;
+  fObjetivo: boolean = false;
+  ecuRestri: boolean = false;
 
   stringEcuacionRestriccion: string[][] = [];
 
@@ -70,7 +70,7 @@ export class SimplexIndexComponent {
 
   mostrarArregloFuncionZ: string[] = [];
   matrizSimplex: number[][] = [];
-  cantidadHolgura: number = 0; 
+  cantidadHolgura: number = 0;
 
   clickCalcularFuncion: boolean = false;
   matrizHolgura: string[][] = [];
@@ -83,85 +83,85 @@ export class SimplexIndexComponent {
     if (selectedValue) {
       const selectedId = parseInt(selectedValue, 10);
       const selectedMetodo = this.metodo.find(met => met.id === selectedId);
-  
+
       if (selectedMetodo) {
         this.tipoMetSeleccion = true;
         this.metodoSeleccionado = { id: selectedMetodo.id, nombre: selectedMetodo.nombre };
-      }      
-  }
-}
-
-  letter(){
-    this.valorZ = this.valorZ.toUpperCase();
-  }
-
-  funcionZ(pStringCadena?: string){
-    this.fObjetivo = false;
-    let cadenaString: string[] = [];
-
-    if(typeof(pStringCadena) == 'string'){
-      if((/^[a-zA-Z]$/.test(pStringCadena![0])) || (/\d+/.test(pStringCadena![0]))){
-        pStringCadena = '+' + pStringCadena;
       }
-  
-      const funcionDividida = pStringCadena!.match(/[-+]\d*[a-zA-Z]+/g);
-  
-      if(funcionDividida){
-        cadenaString = funcionDividida.map(match => match);
-      }else{
-        swal.fire('ERROR','La ecuación de restricción es invalida', 'error');
-      }
-      
-      let expresionValidada = this.validarExpresion(cadenaString); 
-  
-      if(expresionValidada.length > 0){
-        this.fObjetivo = true;
-      }else{
-        swal.fire('ERROR','La ecuación de restricción es invalida', 'error');
-      }
-  
-      return expresionValidada;
-
-    }else{
-          if((/^[a-zA-Z]$/.test(this.valorZ[0])) || (/\d+/.test(this.valorZ[0]))){
-            this.valorZ = '+' + this.valorZ;
-          }
-      
-          const funcionDividida = this.valorZ.match(/[-+]\d*[a-zA-Z]+/g);
-      
-          if(funcionDividida){
-            cadenaString = funcionDividida.map(match => match);
-          }else{
-            swal.fire('ERROR','La función objetivo es invalida', 'error');
-          }
-          
-          let expresionValidada = this.validarExpresion(cadenaString); 
-      
-          if(expresionValidada.length > 0){
-            this.fObjetivo = true;
-          }else{
-            swal.fire('ERROR','La función objetivo es invalida', 'error');
-          }
-      
-          return expresionValidada;
     }
   }
 
-  validarExpresion(cadena: string[]): string[]{
-    if(cadena){
+  letter() {
+    this.valorZ = this.valorZ.toUpperCase();
+  }
+
+  funcionZ(pStringCadena?: string) {
+    this.fObjetivo = false;
+    let cadenaString: string[] = [];
+
+    if (typeof (pStringCadena) == 'string') {
+      if ((/^[a-zA-Z]$/.test(pStringCadena![0])) || (/\d+/.test(pStringCadena![0]))) {
+        pStringCadena = '+' + pStringCadena;
+      }
+
+      const funcionDividida = pStringCadena!.match(/[-+]\d*[a-zA-Z]+/g);
+
+      if (funcionDividida) {
+        cadenaString = funcionDividida.map(match => match);
+      } else {
+        swal.fire('ERROR', 'La ecuación de restricción es invalida', 'error');
+      }
+
+      let expresionValidada = this.validarExpresion(cadenaString);
+
+      if (expresionValidada.length > 0) {
+        this.fObjetivo = true;
+      } else {
+        swal.fire('ERROR', 'La ecuación de restricción es invalida', 'error');
+      }
+
+      return expresionValidada;
+
+    } else {
+      if ((/^[a-zA-Z]$/.test(this.valorZ[0])) || (/\d+/.test(this.valorZ[0]))) {
+        this.valorZ = '+' + this.valorZ;
+      }
+
+      const funcionDividida = this.valorZ.match(/[-+]\d*[a-zA-Z]+/g);
+
+      if (funcionDividida) {
+        cadenaString = funcionDividida.map(match => match);
+      } else {
+        swal.fire('ERROR', 'La función objetivo es invalida', 'error');
+      }
+
+      let expresionValidada = this.validarExpresion(cadenaString);
+
+      if (expresionValidada.length > 0) {
+        this.fObjetivo = true;
+      } else {
+        swal.fire('ERROR', 'La función objetivo es invalida', 'error');
+      }
+
+      return expresionValidada;
+    }
+  }
+
+  validarExpresion(cadena: string[]): string[] {
+    if (cadena) {
       for (let index = 0; index < cadena.length; index++) {
 
-        if(/^[+-][a-zA-Z]$/.test(cadena[index])){
+        if (/^[+-][a-zA-Z]$/.test(cadena[index])) {
           cadena[index] = cadena[index].slice(0, 1) + "1" + cadena[index].slice(-1);
         }
 
-        if(!/^[+-]\d+[a-zA-Z]$/.test(cadena[index])){
+        if (!/^[+-]\d+[a-zA-Z]$/.test(cadena[index])) {
           cadena = [];
           break;
         }
 
       }
-    }else{
+    } else {
       cadena = [];
     }
 
@@ -169,10 +169,10 @@ export class SimplexIndexComponent {
   }
 
   eliminarEcuacion(index: number) {
-    this.inputs.splice(index , 1);
+    this.inputs.splice(index, 1);
   }
 
-  agregarEcuacion(){
+  agregarEcuacion() {
     this.inputs.push({
       operacion: '',
       operador: this.operadorInput[0],
@@ -182,14 +182,14 @@ export class SimplexIndexComponent {
 
   // ecuaciones de restriccion
 
-  ecuacionRestriccion(ecuacionRestriccion:EcuacionRestriccion){
+  ecuacionRestriccion(ecuacionRestriccion: EcuacionRestriccion) {
     ecuacionRestriccion.operacion = ecuacionRestriccion.operacion.toUpperCase();
-    if(ecuacionRestriccion.igualdad != 0 && ecuacionRestriccion.operacion != "" && typeof(ecuacionRestriccion.operador) == 'number'){
+    if (ecuacionRestriccion.igualdad != 0 && ecuacionRestriccion.operacion != "" && typeof (ecuacionRestriccion.operador) == 'number') {
       this.ecuRestri = false;
-      let  expresionDivididaEcuacion: string[] = [];
+      let expresionDivididaEcuacion: string[] = [];
       expresionDivididaEcuacion = this.funcionZ(ecuacionRestriccion.operacion); // la parte de la ecuacion (y+x)
 
-      if(expresionDivididaEcuacion.length > 0){
+      if (expresionDivididaEcuacion.length > 0) {
         this.cantidadHolgura += 1;
         this.convertirStringEcuacionRestriccion(expresionDivididaEcuacion, ecuacionRestriccion.operador, ecuacionRestriccion.igualdad);
         this.matrizEcuacionRestriccionHolgura(expresionDivididaEcuacion, this.cantidadHolgura, ecuacionRestriccion.igualdad, ecuacionRestriccion.operador); //añade variable de holgura a la ecuación de restricción
@@ -208,26 +208,26 @@ export class SimplexIndexComponent {
         }
 
 
-        if(ecuacionRestriccion.operador === 3 && this.numerosEcuacion.length == this.letrasEcuacion.length){
-          for(let i=0; i<this.numerosEcuacion.length; i++){
-            this.numerosEcuacion[i] = this.numerosEcuacion[i]*(-1);
+        if (ecuacionRestriccion.operador === 3 && this.numerosEcuacion.length == this.letrasEcuacion.length) {
+          for (let i = 0; i < this.numerosEcuacion.length; i++) {
+            this.numerosEcuacion[i] = this.numerosEcuacion[i] * (-1);
           }
           this.igualdadEcuacion = (ecuacionRestriccion.igualdad * -1);
-        }else{
+        } else {
           this.igualdadEcuacion = (ecuacionRestriccion.igualdad * 1);
-        }        
+        }
         this.ecuRestri = true;
       }
     }
   }
 
-  calcularFuncion(){
+  calcularFuncion() {
     let expresionDividida: string[] = this.funcionZ();
-    if(expresionDividida.length > 0){
+    if (expresionDividida.length > 0) {
       this.clickCalcularFuncion = false;
       this.letras = [];
       this.numeros = [];
-      
+
       for (const elemento of expresionDividida) {
         const partes = elemento.match(/(-?\d+)|([a-zA-Z]+)/g);
         if (partes) {
@@ -241,11 +241,11 @@ export class SimplexIndexComponent {
           });
         }
       }
-      
-      const validarDosVectores = this.ecuacionRestriccionEstaContenidaFuncionZ(this.letrasEcuacion ,this.letras);
-      if(!validarDosVectores){
-        swal.fire('¡ERROR!','Una o más de las variables de la(s) ecuacion(es) de restricción no se encuentra incluida en la función objetivo', 'error');
-      }else{
+
+      const validarDosVectores = this.ecuacionRestriccionEstaContenidaFuncionZ(this.letrasEcuacion, this.letras);
+      if (!validarDosVectores) {
+        swal.fire('¡ERROR!', 'Una o más de las variables de la(s) ecuacion(es) de restricción no se encuentra incluida en la función objetivo', 'error');
+      } else {
         this.mostrarFuncionZ = this.convertirStringFuncionZ(this.letras, this.numeros, this.cantidadHolgura); // iguala z a cero, cambiar signo
         this.mostrarMatrizEcuaciones = this.matrizEcuaciones.map(fila => {
           return [fila.join('')];
@@ -269,45 +269,45 @@ export class SimplexIndexComponent {
           elementoLetrasVariables.appendChild(inputElement);
         }
 
-        if(this.matrizHolgura.length > 0){
+        if (this.matrizHolgura.length > 0) {
           this.matrizSimplex = this.tablaSimplex(this.mostrarArregloFuncionZ, this.letras, this.numeros, this.matrizHolgura, this.mostrarFuncionZ);
         }
         this.clickCalcularFuncion = true;
       }
     }
-    else{
-      swal.fire('¡ERROR!','La función objetivo es invalida', 'error');
+    else {
+      swal.fire('¡ERROR!', 'La función objetivo es invalida', 'error');
     }
   }
 
 
-  convertirStringFuncionZ(pVectorString: string[], pVectorNumero: number[], pCantidadHolgura: number): string{
+  convertirStringFuncionZ(pVectorString: string[], pVectorNumero: number[], pCantidadHolgura: number): string {
     let valorInvertidoZ: string = '';
 
-    if(pVectorString.length > 0 && pVectorNumero.length > 0){
-      for(let i = 0; i < pVectorString.length; i++){
-        if(pVectorNumero[i] < 0){
+    if (pVectorString.length > 0 && pVectorNumero.length > 0) {
+      for (let i = 0; i < pVectorString.length; i++) {
+        if (pVectorNumero[i] < 0) {
           valorInvertidoZ += pVectorNumero[i].toString() + pVectorString[i];
-        }else{
+        } else {
           valorInvertidoZ += "+" + pVectorNumero[i].toString() + pVectorString[i];
         }
       }
 
-      for(let j = 1; j <= pCantidadHolgura; j++){
-        valorInvertidoZ += "+0" + "S"+j;
+      for (let j = 1; j <= pCantidadHolgura; j++) {
+        valorInvertidoZ += "+0" + "S" + j;
       }
 
       valorInvertidoZ += "=0";
       return valorInvertidoZ;
-    }else{
+    } else {
       return valorInvertidoZ;
     }
   }
 
-  convertirStringEcuacionRestriccion(pVectorOperacion: string[], pOperador: number, pIgualdad: number){
+  convertirStringEcuacionRestriccion(pVectorOperacion: string[], pOperador: number, pIgualdad: number) {
     if (pVectorOperacion.length > 0) {
       let nuevaFila: string[] = [];
-      
+
       for (let i = 0; i < pVectorOperacion.length; i++) {
         nuevaFila.push(pVectorOperacion[i]);
       }
@@ -325,22 +325,22 @@ export class SimplexIndexComponent {
 
       nuevaFila.push(pIgualdad.toString());
       this.matrizEcuaciones.push(nuevaFila);
-    } 
+    }
   }
-  
+
   //Valida que las variables de la funcion objetivos estén presentes en las ecuaciones de restricción
-  ecuacionRestriccionEstaContenidaFuncionZ(pEcuRestriccion: string[], pFuncionZ: string[]): boolean{
+  ecuacionRestriccionEstaContenidaFuncionZ(pEcuRestriccion: string[], pFuncionZ: string[]): boolean {
     const estaContenido = pEcuRestriccion.every(item => pFuncionZ.includes(item));
 
-    if(estaContenido){
+    if (estaContenido) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
   //visualizacion de la fila de la matriz
-  arregloFuncionObjetivo(pVectorLetras: string[], pCantidadVariableHolgura: number){
+  arregloFuncionObjetivo(pVectorLetras: string[], pCantidadVariableHolgura: number) {
 
     let arregloFuncionZ: string[] = [];
 
@@ -349,7 +349,7 @@ export class SimplexIndexComponent {
       arregloFuncionZ.push(pVectorLetras[i]);
     }
     for (let i = 1; i <= pCantidadVariableHolgura; i++) {
-      arregloFuncionZ.push("S"+i);
+      arregloFuncionZ.push("S" + i);
     }
     arregloFuncionZ.push("R");
 
@@ -364,8 +364,8 @@ export class SimplexIndexComponent {
     });
   }
 
-  matrizEcuacionRestriccionHolgura(pVectorString: string[], pCantidadHolgura: number, pIgualdadEcuacion: number, pOperadorId: number){
-    if(pVectorString.length > 0){
+  matrizEcuacionRestriccionHolgura(pVectorString: string[], pCantidadHolgura: number, pIgualdadEcuacion: number, pOperadorId: number) {
+    if (pVectorString.length > 0) {
       let numerosLetras: string[] = [];
       let nuevaFila: string[] = [];
       let vectorInvertido: string[] = [];
@@ -373,30 +373,30 @@ export class SimplexIndexComponent {
       for (let i = 0; i < pVectorString.length; i++) {
         numerosLetras.push(pVectorString[i]);
       }
-      numerosLetras.push("+1S"+pCantidadHolgura);
-      if(pIgualdadEcuacion > 0){
-        numerosLetras.push("+"+pIgualdadEcuacion.toString());
-      }else{
-      numerosLetras.push(pIgualdadEcuacion.toString());
+      numerosLetras.push("+1S" + pCantidadHolgura);
+      if (pIgualdadEcuacion > 0) {
+        numerosLetras.push("+" + pIgualdadEcuacion.toString());
+      } else {
+        numerosLetras.push(pIgualdadEcuacion.toString());
       }
-      
-      if(pOperadorId === 3){
+
+      if (pOperadorId === 3) {
         vectorInvertido = this.invertirSignos(numerosLetras);
 
         this.matrizHolgura.push(vectorInvertido);
         console.log(this.matrizHolgura);
-      }else{
+      } else {
         for (let i = 0; i < numerosLetras.length; i++) {
           nuevaFila.push(numerosLetras[i]);
-        }      
-  
+        }
+
         this.matrizHolgura.push(nuevaFila);
         console.log(this.matrizHolgura);
       }
     }
   }
 
-  tablaSimplex(pVectorEcuaciones: string[], pVectorString: string[], pVectorNumero: number[], pMatrizHolgura: string[][], pMostrarFuncionZ: string): number[][]{
+  tablaSimplex(pVectorEcuaciones: string[], pVectorString: string[], pVectorNumero: number[], pMatrizHolgura: string[][], pMostrarFuncionZ: string): number[][] {
 
     let vectorMostrarFuncionZ: string[] = [];
     let reemplazarIgual: string = pMostrarFuncionZ.replace('=', '+');
@@ -424,13 +424,13 @@ export class SimplexIndexComponent {
     for (let filas = 0; filas <= pMatrizHolgura.length; filas++) {
 
       this.matrizSimplex[filas] = new Array(nuevosVectorEcuaciones.length);
-      
+
       for (let columnas = 0; columnas < nuevosVectorEcuaciones.length; columnas++) {
 
-        if(filas == 0){
+        if (filas == 0) {
           this.matrizSimplex[filas][columnas] = resultadoDivisionNumber[columnas];
-        }else{
-          this.matrizSimplex[filas][columnas] = resultadoMatrizHolguraCompleta[filas-1][columnas];
+        } else {
+          this.matrizSimplex[filas][columnas] = resultadoMatrizHolguraCompleta[filas - 1][columnas];
         }
       }
     }
@@ -464,21 +464,21 @@ export class SimplexIndexComponent {
     return result;
   }
 
-  dividirLetrasNumeros(vectorString: string[]):{ letrasVector: string[], numerosVector: number[] }{
+  dividirLetrasNumeros(vectorString: string[]): { letrasVector: string[], numerosVector: number[] } {
     const letrasVector: string[] = [];
     const numerosVector: number[] = [];
-    if(vectorString.length > 0){
-      
+    if (vectorString.length > 0) {
+
       for (const elemento of vectorString) {
         const varibleHolgura = elemento.match(/([-+]\d+)([A-Za-z]\d+)/);
 
-        if(varibleHolgura){
+        if (varibleHolgura) {
           const [grupo1, grupo2] = varibleHolgura.slice(1);
 
           const numero = parseInt(grupo1, 10);
           numerosVector.push(numero);
           letrasVector.push(grupo2);
-        }else{
+        } else {
           const partes = elemento.match(/(-?\d+)|([a-zA-Z]+)/g);
 
           if (partes) {
@@ -497,10 +497,10 @@ export class SimplexIndexComponent {
     return { letrasVector, numerosVector }
   }
 
-  agregarRMatrizHolgura(pMatrizHolgura: string[][]): string[][]{
+  agregarRMatrizHolgura(pMatrizHolgura: string[][]): string[][] {
     const ultimasPosiciones = pMatrizHolgura.map(fila => fila.length - 1);
 
-    for(let i = 0; i < ultimasPosiciones.length; i ++){
+    for (let i = 0; i < ultimasPosiciones.length; i++) {
       const posicion = ultimasPosiciones[i];
 
       const str = pMatrizHolgura[i][posicion];
@@ -520,10 +520,10 @@ export class SimplexIndexComponent {
       for (const fila of matrizString) {
         const letrasFila: string[] = [];
         const numerosFila: number[] = [];
-  
+
         for (const elemento of fila) {
           const variableHolgura = elemento.match(/([-+]\d+)([A-Za-z]\d+)/);
-  
+
           if (variableHolgura) {
             const [grupo1, grupo2] = variableHolgura.slice(1);
             const numero = parseInt(grupo1, 10);
@@ -531,7 +531,7 @@ export class SimplexIndexComponent {
             letrasFila.push(grupo2);
           } else {
             const partes = elemento.match(/(-?\d+)|([a-zA-Z]+)/g);
-  
+
             if (partes) {
               partes.forEach((parte) => {
                 const numero = parseInt(parte, 10);
@@ -544,17 +544,17 @@ export class SimplexIndexComponent {
             }
           }
         }
-  
+
         letrasMatriz.push(letrasFila);
         numerosMatriz.push(numerosFila);
       }
     }
-  
+
     return { letrasMatriz, numerosMatriz };
   }
-  
 
-  agregarVariablesSiNoExisten(pVectorString: string[], pMatrizString: string[][], pMatrizNumero: number[][]): { resultadoMatriz: string[][], resultadoMatrizNumero: number[][]} {
+
+  agregarVariablesSiNoExisten(pVectorString: string[], pMatrizString: string[][], pMatrizNumero: number[][]): { resultadoMatriz: string[][], resultadoMatrizNumero: number[][] } {
     const resultadoMatriz: string[][] = [];
     const resultadoMatrizNumero: number[][] = [];
 
@@ -581,17 +581,24 @@ export class SimplexIndexComponent {
       }
     }
 
-    return { resultadoMatriz,  resultadoMatrizNumero};
+    return { resultadoMatriz, resultadoMatrizNumero };
   }
 
-  calcularColumnaPivote(pMatrizSimplex: number[][]){
+  calcularColumnaPivote(pMatrizSimplex: number[][]) {
 
     debugger
-    for(let i = 0; i < pMatrizSimplex.length; i++){
-      if(pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo){
+    for (let i = 0; i < pMatrizSimplex.length; i++) {
+      if (pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo) {
         this.menorValorNegativo = pMatrizSimplex[0][i];
       }
     }
+  }
+
+  getIndexMenorValorNegativo() {
+    let index = this.matrizSimplex.findIndex((elem) => {
+      return elem.indexOf(this.menorValorNegativo)
+    })
+    return index;
   }
 
 }
