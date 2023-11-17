@@ -586,7 +586,7 @@ export class SimplexIndexComponent {
   }
 
   calcularColumnaPivote(pMatrizSimplex: number[][]){
-    let posicionColumnaPivote = -1;
+    let posicionColumnaPivote: number = -1;
 
     for(let i = 0; i < pMatrizSimplex.length; i++){
       if(pMatrizSimplex[0][i] < 0 && pMatrizSimplex[0][i] < this.menorValorNegativo){
@@ -595,32 +595,52 @@ export class SimplexIndexComponent {
         posicionColumnaPivote = i;
       }
     }
-
     this.calcularFilaPivote(pMatrizSimplex, posicionColumnaPivote);
   }
 
   calcularFilaPivote(pMatrizSimplex: number[][], pPosicionColumnaPivote: number){
     
     let vectorColumnaPivote: number[] = [];
+    let posicionFilaPivote: number = -1;
 
-    debugger
-    for(let i = 1; i < pMatrizSimplex.length; i++){
-      vectorColumnaPivote.push(pMatrizSimplex[i][pPosicionColumnaPivote]);
-    }
-
-    for(let j = 1; j < pMatrizSimplex.length; j++){
-      const reemplazo = ( pMatrizSimplex[j][pMatrizSimplex[0].length - 1] / vectorColumnaPivote[j - 1] );
-
-      pMatrizSimplex[j][pMatrizSimplex[0].length - 1] = reemplazo;
-    }
+    let matrizAuxiliar: number[][] = [];
 
     for (let fila of pMatrizSimplex) {
-      let valor = fila[pMatrizSimplex[0].length - 1];
-      if (valor > 0 && valor < this.menorValorPositivo) {
-        this.menorValorPositivo = valor;
+      let nuevaFila: number[] = [];
+
+      for (let valor of fila) {
+        nuevaFila.push(valor);
       }
+
+      matrizAuxiliar.push(nuevaFila);
     }
-    debugger
+
+    if(pPosicionColumnaPivote >= 0){
+      for(let i = 1; i < matrizAuxiliar.length; i++){
+        vectorColumnaPivote.push(matrizAuxiliar[i][pPosicionColumnaPivote]);
+      }
+  
+      for(let j = 1; j < matrizAuxiliar.length; j++){
+        const reemplazo = ( matrizAuxiliar[j][matrizAuxiliar[0].length - 1] / vectorColumnaPivote[j - 1] );
+  
+        matrizAuxiliar[j][matrizAuxiliar[0].length - 1] = reemplazo;
+      }
+
+      for (let i = 0; i < matrizAuxiliar.length; i++) {
+        if (matrizAuxiliar[i][matrizAuxiliar[0].length - 1] > 0 && matrizAuxiliar[i][matrizAuxiliar[0].length - 1] < this.menorValorPositivo) {
+          this.menorValorPositivo = ( matrizAuxiliar[i][matrizAuxiliar[0].length - 1] );
+
+          posicionFilaPivote = i;
+        }
+      }
+
+      this.pivote(pMatrizSimplex, pPosicionColumnaPivote, posicionFilaPivote);
+
+    }
+  }
+
+  pivote(pMatrizSimplex: number[][], pColumna: number, pFila: number){
+
   }
 
   getIndexMenorValorNegativo() {
@@ -629,5 +649,7 @@ export class SimplexIndexComponent {
     })
     return index;
   }
+
+
 
 }
